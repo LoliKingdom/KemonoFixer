@@ -1,0 +1,11 @@
+{
+    "package": "com.rong.kemonofixer.mixins",
+    "refmap": "mixins.kemonofixer.refmap.json",
+    "target": "@env(DEFAULT)",
+    "compatibilityLevel": "JAVA_8",
+    "required": true,
+    "minVersion": "0.7.11",
+    "mixins": [
+		"MixinKemonoCraft", "MixinKemonoEventHandler", "MixinKemonoBiomes"
+    ]
+}

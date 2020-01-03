@@ -1,0 +1,16 @@
+[
+{
+  "modid": "kemonofixer",
+  "name": "KemonoFixer",
+  "description": "Fixes everything that's wrong with KemonoCraft.",
+  "version": "1.1",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Rongmario"],
+  "credits": "The Full Picture & /mcg/",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

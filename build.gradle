@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "minecraftforge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "spongepowered"
+            url = "https://repo.spongepowered.org/maven"
+        }
+		maven {
+			name = "cursemaven"
+			url "https://plugins.gradle.org/m2/"
+		}
+    }
+
+    dependencies {
+        classpath("com.github.jengelman.gradle.plugins:shadow:2.0.4")
+        classpath("net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT")
+        classpath("org.spongepowered:mixingradle:0.6-SNAPSHOT")
+		classpath("com.wynprice.cursemaven:CurseMaven:2.1.0")
+	}
+}
+
+apply plugin: "com.wynprice.cursemaven"
+apply plugin: "java"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "com.rong"
+archivesBaseName = "KemonoFixer"
+version = "1.1"
+
+minecraft {
+    version = "1.12.2-14.23.5.2838"
+    runDir = "run"
+    mappings = "stable_39"
+	clientJvmArgs.add("-Dfml.coreMods.load=com.rong.kemonofixer.KemonoFixerCoreMod")
+}
+
+mixin {
+    defaultObfuscationEnv = searge
+	disableRefMapWarning = true
+    add(sourceSets.main, "mixins.kemonofixer.refmap.json")
+}
+
+repositories {
+    jcenter()
+    maven {
+        name = "spongepowered"
+        url = "https://repo.spongepowered.org/maven"
+    }
+}
+
+dependencies {
+	compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'asm-commons'
+        exclude module: 'asm-tree'
+		exclude module: 'commons-io'
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'log4j-core'
+    }
+	deobfProvided "curse.maven:kemonocraft:2849709"
+}
+
+jar {
+    manifest {
+		attributes(
+                "ForceLoadAsMod": true,
+				"FMLCorePlugin": "com.rong.kemonofixer.KemonoFixerCoreMod",
+				"FMLCorePluginContainsFMLMod": "true",
+                "MixinConfigs": "mixins.kemonofixer.json",
+                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+				"TweakOrder": 0
+        )
+    }
+}
