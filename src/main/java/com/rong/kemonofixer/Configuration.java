@@ -9,6 +9,7 @@ public class Configuration {
 
 	public static Biomes BIOMES = new Biomes();
 	public static Technical TECHNICAL = new Technical();
+	public static AI AI = new AI();
 
 	@Comment("Disable all Cellien Spawns")
 	public boolean DISABLE_CELLIEN_SPAWNS = false;
@@ -48,6 +49,16 @@ public class Configuration {
 		public int SANDSTAR_VOLCANO_BIOME_WEIGHT = 0;
 		
 	}
+	
+    public static class AI {
+        
+        @Comment("Enable Block Destroying AI?")
+        public boolean AI_CAN_DESTROY = true;
+        
+        @Comment("Enable Mining AI? (Requires Block Destroying AI to be enabled)")
+        public boolean AI_CAN_MINE = true;
+        
+    }
 	
 	public static class Technical {
 		

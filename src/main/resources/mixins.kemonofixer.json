@@ -6,6 +6,7 @@
     "required": true,
     "minVersion": "0.7.11",
     "mixins": [
-		"MixinKemonoCraft", "MixinKemonoEventHandler", "MixinKemonoBiomes"
+		"MixinKemonoCraft", "MixinKemonoEventHandler", "MixinKemonoBiomes", 
+		"ai.MixinEntityAIFriendsDestroyBlock", "ai.MixinEntityAIFriendsMine"
     ]
 }
