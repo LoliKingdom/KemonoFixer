@@ -1,4 +1,4 @@
-package com.rong.kemonofixer;
+package com.rong.kemonofixer.ct;
 
 import net.minecraft.item.ItemStack;
 

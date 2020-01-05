@@ -36,7 +36,7 @@ public class Helper {
         EntityRegistry.registerModEntity(KemonoFunction.getResourceLocation("redcellien"), EntityRedCellien.class, "RedCellien", 11, KemonoCraft.instance, 60, 2, false, 10295577, 16735581);
         EntityRegistry.registerModEntity(KemonoFunction.getResourceLocation("bigcellien"), EntityBigCellien.class, "BigCellien", 12, KemonoCraft.instance, 60, 2, false, 1061095, 2162560);
         EntityRegistry.registerModEntity(KemonoFunction.getResourceLocation("bigredcellien"), EntityBigRedCellien.class, "BigRedCellien", 13, KemonoCraft.instance, 60, 2, false, 16711712, 2162560);
-        new KomonoMobEggs();
+        new KemonoMobEggs();
     }
 
 }

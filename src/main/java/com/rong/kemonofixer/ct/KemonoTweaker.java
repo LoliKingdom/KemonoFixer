@@ -3,8 +3,6 @@ package com.rong.kemonofixer.ct;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rong.kemonofixer.ItemStackWrapper;
-
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.entity.IEntity;
 import crafttweaker.api.item.IItemStack;

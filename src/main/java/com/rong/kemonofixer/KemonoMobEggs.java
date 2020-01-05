@@ -16,7 +16,7 @@ import erx.kemonocraft.entity.EntityToki;
 import net.minecraft.entity.EntityList;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-public class KomonoMobEggs {
+public class KemonoMobEggs {
 
     public static final EntityList.EntityEggInfo Serval = EntityRegistry.getEntry(EntityServal.class).getEgg();
     public static final EntityList.EntityEggInfo Caracal = EntityRegistry.getEntry(EntityCaracal.class).getEgg();
