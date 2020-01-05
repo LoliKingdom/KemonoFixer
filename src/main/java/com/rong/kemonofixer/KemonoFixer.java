@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod(modid = KemonoFixer.MODID, name = KemonoFixer.MODNAME, version = KemonoFixer.VERSION, useMetadata = true, dependencies = "after:kemonocraft")
+@Mod(modid = KemonoFixer.MODID, name = KemonoFixer.MODNAME, version = KemonoFixer.VERSION, useMetadata = true, dependencies = "required-after:kemonocraft")
 @EventBusSubscriber
 public class KemonoFixer {
 

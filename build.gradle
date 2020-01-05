@@ -16,16 +16,14 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.github.jengelman.gradle.plugins:shadow:2.0.4")
         classpath("net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT")
         classpath("org.spongepowered:mixingradle:0.6-SNAPSHOT")
-		classpath("com.wynprice.cursemaven:CurseMaven:2.1.0")
+		classpath("com.wynprice.cursemaven:CurseMaven:2.1.1")
 	}
 }
 
 apply plugin: "com.wynprice.cursemaven"
 apply plugin: "java"
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "org.spongepowered.mixin"
 
@@ -43,6 +41,11 @@ minecraft {
 	clientJvmArgs.add("-Dfml.coreMods.load=com.rong.kemonofixer.KemonoFixerCoreMod")
 }
 
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
 mixin {
     defaultObfuscationEnv = searge
 	disableRefMapWarning = true
@@ -55,10 +58,14 @@ repositories {
         name = "spongepowered"
         url = "https://repo.spongepowered.org/maven"
     }
+	maven {
+		name = "crafttweaker"
+        url 'http://maven.blamejared.com'
+    }
 }
 
 dependencies {
-	compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+	embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'asm-commons'
         exclude module: 'asm-tree'
 		exclude module: 'commons-io'
@@ -66,7 +73,8 @@ dependencies {
         exclude module: 'guava'
         exclude module: 'log4j-core'
     }
-	deobfProvided "curse.maven:kemonocraft:2849709"
+	compile "curse.maven:kemonocraft:2849709"
+	deobfCompile 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.17.536'
 }
 
 jar {
@@ -75,9 +83,16 @@ jar {
                 "ForceLoadAsMod": true,
 				"FMLCorePlugin": "com.rong.kemonofixer.KemonoFixerCoreMod",
 				"FMLCorePluginContainsFMLMod": "true",
-                "MixinConfigs": "mixins.kemonofixer.json",
-                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-				"TweakOrder": 0
+				//Below is setup in the CoreMod of KemonoFixer.
+                //"MixinConfigs": "mixins.kemonofixer.json",
+                //"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+				//"TweakOrder": 0
         )
+    }
+}
+
+reobf {
+    jar {
+        mappingType = "SEARGE"
     }
 }

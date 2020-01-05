@@ -8,6 +8,7 @@ import net.minecraftforge.common.config.Config.RequiresWorldRestart;
 public class Configuration {
 
 	public static Biomes BIOMES = new Biomes();
+	public static Entity ENTITY = new Entity();
 	public static Technical TECHNICAL = new Technical();
 	public static AI AI = new AI();
 
@@ -48,6 +49,13 @@ public class Configuration {
 		@Comment("Sandstar Volcano's Biome Weight. Default = 0 (as it spawns inside of Sandstar Fields)")
 		public int SANDSTAR_VOLCANO_BIOME_WEIGHT = 0;
 		
+	}
+	
+	public static class Entity {
+	    
+	    @Comment("Enable every fucking friend to hate you forever, do you want that you cuck?")
+	    public boolean BE_A_CUCK = true;
+	    
 	}
 	
     public static class AI {

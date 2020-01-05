@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.rong.kemonofixer.ExtraMobEggs;
+import com.rong.kemonofixer.Helper;
 
 import erx.kemonocraft.KemonoCraft;
 import erx.kemonocraft.init.KemonoChunk;
@@ -22,6 +22,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 @Mixin(KemonoCraft.class)
 public class MixinKemonoCraft {
@@ -38,8 +39,8 @@ public class MixinKemonoCraft {
 	public void onInit(FMLInitializationEvent event, CallbackInfo info) {
 	    KemonoItems.registerSmelting();
 	    KemonoItems.registerBrewing();
-	    KemonoEntityRegistry.registerEntities();
-	    new ExtraMobEggs(); //Didn't even know you could do it this way, alternative = EntityRegistry#registerEgg
+	    //KemonoEntityRegistry.registerEntities();
+	    Helper.registerEntities();
 	    KemonoMoves.init();
 	    ForgeChunkManager.setForcedChunkLoadingCallback(this, (ForgeChunkManager.LoadingCallback)chunkLoader);
 	    chunkLoader.init();
