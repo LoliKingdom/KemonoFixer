@@ -2,6 +2,8 @@ package com.rong.kemonofixer;
 
 import org.apache.logging.log4j.Logger;
 
+import com.rong.kemonofixer.ct.KemonoTweaker;
+
 import erx.kemonocraft.init.KemonoBiomes;
 import erx.kemonocraft.init.KemonoBlocks;
 import erx.kemonocraft.init.KemonoItems;
@@ -44,7 +46,7 @@ public class KemonoFixer {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
+	    KemonoTweaker.onPreInit(); //Adds custom tweaker for entity tweaking
 	}
 
 	@EventHandler

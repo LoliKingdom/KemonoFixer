@@ -1,5 +1,7 @@
 package com.rong.kemonofixer;
 
+import com.rong.kemonofixer.ct.KemonoTweaker;
+
 import erx.kemonocraft.KemonoCraft;
 import erx.kemonocraft.entity.EntityBigCellien;
 import erx.kemonocraft.entity.EntityBigRedCellien;
@@ -17,6 +19,8 @@ import erx.kemonocraft.entity.EntitySilverFox;
 import erx.kemonocraft.entity.EntityToki;
 import erx.kemonocraft.init.KemonoMobEggInfo;
 import erx.kemonocraft.utility.KemonoFunction;
+import net.minecraft.entity.EntityList;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class Helper {
@@ -37,6 +41,20 @@ public class Helper {
         EntityRegistry.registerModEntity(KemonoFunction.getResourceLocation("bigcellien"), EntityBigCellien.class, "BigCellien", 12, KemonoCraft.instance, 60, 2, false, 1061095, 2162560);
         EntityRegistry.registerModEntity(KemonoFunction.getResourceLocation("bigredcellien"), EntityBigRedCellien.class, "BigRedCellien", 13, KemonoCraft.instance, 60, 2, false, 16711712, 2162560);
         new KemonoMobEggs();
+    }
+    
+    public static boolean containsItem(Class clazz, ItemStack stack, String identifier) {
+        if (stack.isEmpty()) return false;
+        if (identifier == "LOVE_FOOD") {
+            return KemonoTweaker.LOVE_FOODS.get(EntityList.getID(clazz)).contains(stack.getItem());
+        }
+        else if (identifier == "MINOR_FOOD") {
+            return KemonoTweaker.MINOR_FOODS.get(EntityList.getID(clazz)).contains(stack.getItem());
+        }
+        else if (identifier == "SPECIAL_ITEM") {
+            return KemonoTweaker.SPECIAL_ITEMS.get(EntityList.getID(clazz)).contains(stack.getItem());
+        }
+        else return false;
     }
 
 }

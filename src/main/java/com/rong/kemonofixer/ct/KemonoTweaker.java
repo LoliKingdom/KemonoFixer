@@ -1,87 +1,78 @@
 package com.rong.kemonofixer.ct;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.entity.IEntity;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import crafttweaker.api.oredict.IOreDict;
+import crafttweaker.runtime.ScriptLoader;
 import erx.kemonocraft.entity.EntityIsFriends;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.kemonocraft")
 public class KemonoTweaker {
     
-    //EntityIsFriends here instead of just EntityCaracal to make things a lot easier in the future.
-    public static final Map<EntityIsFriends, ItemStackWrapper> MINOR_FOOD = new HashMap<>();
-    public static final Map<EntityIsFriends, ItemStackWrapper> LOVE_FOOD = new HashMap<>();
+    public static final Int2ObjectOpenHashMap<Set<Item>> MINOR_FOODS = new Int2ObjectOpenHashMap<>();
+    public static final Int2ObjectOpenHashMap<Set<Item>> LOVE_FOODS = new Int2ObjectOpenHashMap<>();
+    public static final Int2ObjectOpenHashMap<Set<Item>> SPECIAL_ITEMS = new Int2ObjectOpenHashMap<>();
     
     @ZenMethod
     public static void addMinorFood(IEntity entity, IItemStack... ctStack) {
-        if (!(entity instanceof EntityIsFriends)) {
-            throw new IllegalArgumentException("addLoveFood does not allow any non-friend entities.");
+        if (!isFriend(entity)) {
+            throw new IllegalArgumentException("addMinorFood does not allow any non-friend entities.");
         }
-        for (IItemStack stack : ctStack) {
-            if (stack.isFood()) {
-                MINOR_FOOD.put((EntityIsFriends) CraftTweakerMC.getEntity(entity), new ItemStackWrapper(CraftTweakerMC.getItemStack(stack)));
-            }
-            else {
-                CraftTweakerAPI.logWarning(stack.getDisplayName().concat(" wasn't added to the list of minor foods."));
-            }
-        }
+        MINOR_FOODS.put(entity.getID(), Arrays.stream(ctStack).filter(stack -> isFood(stack, entity, "Minor Foods")).map(s -> getItem(s)).collect(Collectors.toSet()));
     }
     
     @ZenMethod
     public static void addLoveFood(IEntity entity, IItemStack... ctStack) {
-        if (!(entity instanceof EntityIsFriends)) {
+        if (!isFriend(entity)) {
             throw new IllegalArgumentException("addLoveFood does not allow any non-friend entities.");
         }
+        LOVE_FOODS.put(entity.getID(), Arrays.stream(ctStack).filter(stack -> isFood(stack, entity, "Love Foods")).map(s -> getItem(s)).collect(Collectors.toSet()));
+    }
+    
+    @ZenMethod
+    public static void addSpecialItem(IEntity entity, IItemStack... ctStack) {
+        if (!isFriend(entity)) {
+            throw new IllegalArgumentException("addSpecialItem does not allow any non-friend entities.");
+        }
+        Set<Item> set = new HashSet<>();
         for (IItemStack stack : ctStack) {
-            if (stack.isFood()) {
-                LOVE_FOOD.put((EntityIsFriends) CraftTweakerMC.getEntity(entity), new ItemStackWrapper(CraftTweakerMC.getItemStack(stack)));
-            }
-            else {
-                CraftTweakerAPI.logWarning(stack.getDisplayName().concat(" wasn't added to the list of love foods."));
-            }
+            CraftTweakerAPI.logInfo(String.format("%s was added to %s's Special Items", stack.getDisplayName(), entity.getDisplayName()));
+            set.add(getItem(stack));
         }
+        SPECIAL_ITEMS.put(entity.getID(), set);    
     }
     
-    @ZenMethod
-    public static void addMinorFood(IEntity entity, IItemStack ctStack) {
-        if (!(entity instanceof EntityIsFriends)) {
-            throw new IllegalArgumentException("addMinorFood does not allow any non-friend entities.");
-        }
-        else if (ctStack.isFood()) {
-            MINOR_FOOD.put((EntityIsFriends) CraftTweakerMC.getEntity(entity), new ItemStackWrapper(CraftTweakerMC.getItemStack(ctStack)));
-        }
-        else {
-            CraftTweakerAPI.logWarning(ctStack.getDisplayName().concat(" wasn't added to the list of minor foods."));
-            throw new IllegalArgumentException("addMinorFood does not allow any non-food ItemStacks.");
-        }
-    }
-    
-    @ZenMethod
-    public static void addLoveFood(IEntity entity, IItemStack ctStack) {
-        if (!(entity instanceof EntityIsFriends)) {
-            throw new IllegalArgumentException("addLoveFood does not allow any non-friend entities.");
-        }
-        else if (ctStack.isFood()) {
-            LOVE_FOOD.put((EntityIsFriends) CraftTweakerMC.getEntity(entity), new ItemStackWrapper(CraftTweakerMC.getItemStack(ctStack)));
-        }
-        else {
-            CraftTweakerAPI.logWarning(ctStack.getDisplayName().concat(" wasn't added to the list of love foods."));
-            throw new IllegalArgumentException("addLoveFood does not allow any non-food ItemStacks.");
-        }
-    }
-    
-    /*
     public static void onPreInit() {
-        ScriptLoader loader = CraftTweakerAPI.tweaker.getOrCreateLoader(KemonoCraft.MODID + "_data");
+        ScriptLoader loader = CraftTweakerAPI.tweaker.getOrCreateLoader("kemonofixer");
         CraftTweakerAPI.tweaker.loadScript(false, loader);
     }
-    */
+    
+    private static Item getItem(IItemStack stack) {
+        return CraftTweakerMC.getItemStack(stack).getItem();
+    }
+    
+    private static boolean isFriend(IEntity entity) {
+        return CraftTweakerMC.getEntity(entity) instanceof EntityIsFriends;
+    }
+    
+    private static boolean isFood(IItemStack stack, IEntity entity, String identifier) {
+        if (!stack.isFood()) {
+            CraftTweakerAPI.logWarning(String.format("%s wasn't added to %s's %s", stack.getDisplayName(), entity.getDisplayName(), identifier));
+            return false;
+        }
+        CraftTweakerAPI.logInfo(String.format("%s was added to %s's %s", stack.getDisplayName(), entity.getDisplayName(), identifier));
+        return true;
+    }
 
 }
